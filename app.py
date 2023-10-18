@@ -29,7 +29,7 @@ if format_type == "Plain Text":
     text = st.text_area("Enter your text here: 🎯", height=300)
 
     if st.button("Fix  Punctuation ✨"):
-        with st.spinner(f"Fixing Punctuation... 💫"):
+        with st.spinner("Fixing Punctuation... 💫"):
             output_json = instantiate_model(text)
             final_text = generate_result(output_json)
 
@@ -46,33 +46,34 @@ if format_type == "Documents":
         with open(os.path.join(upload_path,uploaded_file.name),"wb") as f:
             f.write((uploaded_file).getbuffer())
         if uploaded_file.name.endswith('.txt') or uploaded_file.name.endswith('.TXT'):
-            with st.spinner(f"Fixing Punctuation... 💫"):
+            with st.spinner("Fixing Punctuation... 💫"):
                 uploaded_txt_file = os.path.abspath(os.path.join(upload_path,uploaded_file.name))
-                downloaded_txt_file = os.path.abspath(os.path.join(download_path,str("processed_"+uploaded_file.name)))
+                downloaded_txt_file = os.path.abspath(
+                    os.path.join(
+                        download_path, str(f"processed_{uploaded_file.name}")
+                    )
+                )
                 txt = extract_text_txt(uploaded_txt_file,downloaded_txt_file)
                 output_json = instantiate_model(txt)
-                final_text = generate_result(output_json)
-                if final_text:
+                if final_text := generate_result(output_json):
                     st.markdown(final_text)
                     download_success()
 
         if uploaded_file.name.endswith('.pdf') or uploaded_file.name.endswith('.PDF'):
-            with st.spinner(f"Fixing Punctuation... 💫"):
+            with st.spinner("Fixing Punctuation... 💫"):
                 uploaded_pdf_file = os.path.abspath(os.path.join(upload_path,uploaded_file.name))
                 txt = extract_text_pdf(uploaded_pdf_file)
                 output_json = instantiate_model(txt)
-                final_text = generate_result(output_json)
-                if final_text:
+                if final_text := generate_result(output_json):
                     st.markdown(final_text)
                     download_success()
 
         if uploaded_file.name.endswith('.docx') or uploaded_file.name.endswith('.DOCX'):
-            with st.spinner(f"Fixing Punctuation... 💫"):
+            with st.spinner("Fixing Punctuation... 💫"):
                 uploaded_docx_file = os.path.abspath(os.path.join(upload_path,uploaded_file.name))
                 txt = extract_text_docx(uploaded_docx_file)
                 output_json = instantiate_model(txt)
-                final_text = generate_result(output_json)
-                if final_text:
+                if final_text := generate_result(output_json):
                     st.markdown(final_text)
                     download_success()
 
